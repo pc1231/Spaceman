@@ -1,87 +1,81 @@
-const easyWords = ["star", "moon", "mars"];
-const mediumWords = ["rocket", "astronaut", "gravity"];
-const hardWords = ["constellation", "nebula", "blackhole"];
-
-const difficultyLevels = {
-  easy: easyWords,
-  medium: mediumWords,
-  hard: hardWords,
-};
-
+// Define wordList as a constant array
+const wordList = ["robot", "armstrong", "astronaut", "space"];
 let guessedLetters = [];
 const maxWrongGuesses = 5;
 let wordToGuess;
-let wrongGuesses;
+let wrongGuesses = 0;
 let displayWord;
 
-console.log("Welcome to Spaceman! Guess the space-themed word.");
-
-function chooseDifficulty() {
-  let difficulty;
-  while (!difficulty) {
-    difficulty = prompt("Choose difficulty (easy, medium, hard):").toLowerCase();
-    if (!difficultyLevels.hasOwnProperty(difficulty)) {
-      console.error("Invalid difficulty. Please choose easy, medium, or hard.");
-      difficulty = null;
-    }
-  }
-  return difficulty;
-}
-
+// Function to start a new game
 function newGame() {
-  try {
-    const difficulty = chooseDifficulty();
-    const wordList = difficultyLevels[difficulty];
+    // Choose a random word from the word list
     wordToGuess = wordList[Math.floor(Math.random() * wordList.length)];
     guessedLetters = [];
-    wrongGuesses = 0;
+    wrongGuesses = 0;  // Reset wrong guesses
     displayWord = "_".repeat(wordToGuess.length);
-  } catch (error) {
-    console.error("Error starting a new game:", error);
-  } finally {
-    gameLoop();
-  }
+    updateDisplay();
 }
 
-function displayGameState() {
-  console.log("Word: " + displayWord.split('').join(' '));
-  console.log("Guessed Letters: " + guessedLetters.join(', '));
-  console.log("Wrong guesses left: " + (maxWrongGuesses - wrongGuesses));
+// Function to update the display
+function updateDisplay() {
+    document.getElementById('displayWord').textContent = "Word: " + displayWord.split('').join(' ');
+    document.getElementById('guessedLetters').textContent = "Guessed Letters: " + guessedLetters.join(', ');
+    document.getElementById('gameResult').textContent = ""; // Clear game result
 }
 
-function gameLoop() {
-  while (wrongGuesses < maxWrongGuesses && displayWord.includes("_")) {
-    displayGameState();
-    let guess;
-    try {
-      guess = prompt("Enter a letter to guess:").toLowerCase();
-      if (guess.length !== 1 || !guess.match(/[a-z]/i)) {
-        throw new Error("Invalid guess. Please enter a single letter.");
-      }
-    } catch (error) {
-      console.error(error.message);
-      continue;
+// Function to process a guessed letter
+function guessLetter() {
+    let guess = document.getElementById('guessInput').value.toLowerCase();
+
+    if (guess.length !== 1 || !/[a-z]/.test(guess)) {
+        alert("Please enter a single letter from A-Z.");
+        return;
     }
+
     if (guessedLetters.includes(guess)) {
-      console.log("You already guessed that letter.");
-      continue;
+        alert("You already guessed that letter.");
+        return;
     }
+
     guessedLetters.push(guess);
+
     if (wordToGuess.includes(guess)) {
-      for (let i = 0; i < wordToGuess.length; i++) {
-        if (wordToGuess[i] === guess) {
-          displayWord = displayWord.substr(0, i) + guess + displayWord.substr(i + 1);
+        for (let i = 0; i < wordToGuess.length; i++) {
+            if (wordToGuess[i] === guess) {
+                displayWord = displayWord.substr(0, i) + guess + displayWord.substr(i + 1);
+            }
         }
-      }
     } else {
-      wrongGuesses++;
+        wrongGuesses++;
     }
-  }
-  if (!displayWord.includes("_")) {
-    console.log("Congratulations! You've guessed the word: " + wordToGuess);
-  } else {
-    console.log("Game Over! The word was: " + wordToGuess);
-  }
+
+    updateDisplay();
+
+    if (!displayWord.includes("_")) {
+        document.getElementById('gameResult').textContent = "Congratulations! You've guessed the word: " + wordToGuess;
+        setTimeout(newGame, 2000); // Automatically start a new game after 2 seconds
+    }
+
+    if (wrongGuesses >= maxWrongGuesses) {
+        document.getElementById('gameResult').textContent = "Game Over! The word was: " + wordToGuess;
+        setTimeout(newGame, 2000); // Automatically start a new game after 2 seconds
+    }
 }
 
-newGame();
+// Function to handle letter clicks from keyboard
+function handleLetterClick(letter) {
+    document.getElementById('guessInput').value = letter;
+    guessLetter();
+}
+
+// Event listener for the 'Enter' key in the guess input field
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('guessInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            guessLetter();
+        }
+    });
+
+    // Start the game when the page loads
+    newGame();
+});

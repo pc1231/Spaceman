@@ -3,10 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script defer src="./script.js"></script>
+    <title>Spaceman Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Spaceman Adventure</h1>
+        <div class="game-board">
+            <p>Guess the word by entering letters:</p>
+            <input type="text" id="guessInput" class="input-field" placeholder="Enter a letter">
+            <button onclick="guessLetter()" class="button">Guess</button>
+            <div id="guessedLetters" class="message">Guessed Letters: </div>
+            <div id="displayWord" class="message">Word: _ _ _ _ _</div>
+            <div id="gameResult" class="message"></div>
+        </div>
+
+        <div id="keyboard" class="keyboard">
+            
+            <button class="keyboard-button" onclick="handleLetterClick('a')">A</button>
+            <button class="keyboard-button" onclick="handleLetterClick('b')">B</button>
+            <button class="keyboard-button" onclick="handleLetterClick('c')">C</button>
+            <button class="keyboard-button" onclick="handleLetterClick('d')">D</button>
+            <button class="keyboard-button" onclick="handleLetterClick('e')">E</button>
+            <button class="keyboard-button" onclick="handleLetterClick('f')">F</button>
+            <button class="keyboard-button" onclick="handleLetterClick('g')">G</button>
+            <button class="keyboard-button" onclick="handleLetterClick('h')">H</button>
+            <button class="keyboard-button" onclick="handleLetterClick('i')">I</button>
+            <button class="keyboard-button" onclick="handleLetterClick('j')">J</button>
+            <button class="keyboard-button" onclick="handleLetterClick('k')">K</button>
+            <button class="keyboard-button" onclick="handleLetterClick('l')">L</button>
+            <button class="keyboard-button" onclick="handleLetterClick('m')">M</button>
+            <button class="keyboard-button" onclick="handleLetterClick('n')">N</button>
+            <button class="keyboard-button" onclick="handleLetterClick('o')">O</button>
+            <button class="keyboard-button" onclick="handleLetterClick('p')">P</button>
+            <button class="keyboard-button" onclick="handleLetterClick('q')">Q</button>
+            <button class="keyboard-button" onclick="handleLetterClick('r')">R</button>
+            <button class="keyboard-button" onclick="handleLetterClick('s')">S</button>
+            <button class="keyboard-button" onclick="handleLetterClick('t')">T</button>
+            <button class="keyboard-button" onclick="handleLetterClick('u')">U</button>
+            <button class="keyboard-button" onclick="handleLetterClick('v')">V</button>
+            <button class="keyboard-button" onclick="handleLetterClick('w')">W</button>
+            <button class="keyboard-button" onclick="handleLetterClick('x')">X</button>
+            <button class="keyboard-button" onclick="handleLetterClick('y')">Y</button>
+            <button class="keyboard-button" onclick="handleLetterClick('z')">Z</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy; Spaceman Game
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>
